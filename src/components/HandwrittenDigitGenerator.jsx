@@ -52,43 +52,235 @@ const HandwrittenDigitGenerator = () => {
         }
     };
 
+    const styles = {
+        container: {
+            minHeight: '100vh',
+            backgroundColor: '#f9fafb',
+            paddingTop: '2rem',
+            paddingBottom: '2rem'
+        },
+        wrapper: {
+            maxWidth: '56rem',
+            margin: '0 auto',
+            padding: '0 1rem'
+        },
+        header: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '2rem'
+        },
+        title: {
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            color: '#1f2937',
+            margin: 0
+        },
+        headerButtons: {
+            display: 'flex',
+            gap: '0.5rem'
+        },
+        headerButton: {
+            padding: '0.5rem',
+            color: '#4b5563',
+            backgroundColor: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'color 0.2s'
+        },
+        description: {
+            color: '#4b5563',
+            marginBottom: '2rem',
+            fontSize: '1rem'
+        },
+        form: {
+            marginBottom: '2rem'
+        },
+        formGroup: {
+            marginBottom: '1rem'
+        },
+        label: {
+            display: 'block',
+            fontSize: '0.875rem',
+            fontWeight: '500',
+            color: '#374151',
+            marginBottom: '0.5rem'
+        },
+        select: {
+            display: 'block',
+            width: '12rem',
+            padding: '0.5rem 0.75rem',
+            border: '1px solid #d1d5db',
+            borderRadius: '0.375rem',
+            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+            fontSize: '1rem',
+            outline: 'none',
+            transition: 'border-color 0.2s, box-shadow 0.2s'
+        },
+        button: {
+            padding: '0.5rem 1.5rem',
+            borderRadius: '0.375rem',
+            fontWeight: '500',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'background-color 0.2s',
+            fontSize: '1rem'
+        },
+        buttonActive: {
+            backgroundColor: '#ef4444'
+        },
+        buttonHover: {
+            backgroundColor: '#dc2626'
+        },
+        buttonDisabled: {
+            backgroundColor: '#9ca3af',
+            cursor: 'not-allowed'
+        },
+        errorContainer: {
+            marginBottom: '1.5rem',
+            padding: '1rem',
+            backgroundColor: '#fef2f2',
+            border: '1px solid #fecaca',
+            borderRadius: '0.375rem'
+        },
+        errorText: {
+            color: '#b91c1c',
+            margin: 0
+        },
+        errorSubtext: {
+            fontSize: '0.875rem',
+            color: '#dc2626',
+            marginTop: '0.25rem',
+            margin: '0.25rem 0 0 0'
+        },
+        resultsTitle: {
+            fontSize: '1.25rem',
+            fontWeight: '600',
+            color: '#1f2937',
+            marginBottom: '1rem'
+        },
+        imageGrid: {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(5, 1fr)',
+            gap: '1.5rem'
+        },
+        imageItem: {
+            textAlign: 'center'
+        },
+        imageContainer: {
+            width: '6rem',
+            height: '6rem',
+            margin: '0 auto',
+            backgroundColor: '#000',
+            borderRadius: '0.5rem',
+            overflow: 'hidden',
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+        },
+        image: {
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+        },
+        imageLabel: {
+            fontSize: '0.875rem',
+            color: '#6b7280',
+            marginTop: '0.5rem'
+        },
+        loadingContainer: {
+            textAlign: 'center',
+            paddingTop: '2rem',
+            paddingBottom: '2rem'
+        },
+        loadingContent: {
+            display: 'inline-flex',
+            alignItems: 'center'
+        },
+        spinner: {
+            width: '1.5rem',
+            height: '1.5rem',
+            border: '2px solid transparent',
+            borderBottom: '2px solid #ef4444',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            marginRight: '0.75rem'
+        },
+        loadingText: {
+            color: '#4b5563'
+        }
+    };
+
+    // Add CSS animation for spinner
+    const spinnerStyle = document.createElement('style');
+    spinnerStyle.textContent = `
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    `;
+    if (!document.head.querySelector('style[data-spinner]')) {
+        spinnerStyle.setAttribute('data-spinner', 'true');
+        document.head.appendChild(spinnerStyle);
+    }
+
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
-            <div className="max-w-4xl mx-auto px-4">
+        <div style={styles.container}>
+            <div style={styles.wrapper}>
                 {/* Header */}
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">
+                <div style={styles.header}>
+                    <h1 style={styles.title}>
                         Handwritten Digit Image Generator
                     </h1>
-                    <div className="flex space-x-2">
-                        <button className="p-2 text-gray-600 hover:text-gray-800">
+                    <div style={styles.headerButtons}>
+                        <button
+                            style={styles.headerButton}
+                            onMouseOver={(e) => e.target.style.color = '#1f2937'}
+                            onMouseOut={(e) => e.target.style.color = '#4b5563'}
+                        >
                             Fork
                         </button>
-                        <button className="p-2 text-gray-600 hover:text-gray-800">
+                        <button
+                            style={styles.headerButton}
+                            onMouseOver={(e) => e.target.style.color = '#1f2937'}
+                            onMouseOut={(e) => e.target.style.color = '#4b5563'}
+                        >
                             ⭐
                         </button>
-                        <button className="p-2 text-gray-600 hover:text-gray-800">
+                        <button
+                            style={styles.headerButton}
+                            onMouseOver={(e) => e.target.style.color = '#1f2937'}
+                            onMouseOut={(e) => e.target.style.color = '#4b5563'}
+                        >
                             ⋮
                         </button>
                     </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-600 mb-8">
+                <p style={styles.description}>
                     Generate synthetic MNIST-like images using your trained model.
                 </p>
 
                 {/* Form */}
-                <div className="mb-8">
-                    <div className="mb-4">
-                        <label htmlFor="digit-select" className="block text-sm font-medium text-gray-700 mb-2">
+                <div style={styles.form}>
+                    <div style={styles.formGroup}>
+                        <label htmlFor="digit-select" style={styles.label}>
                             Choose a digit to generate (0-9):
                         </label>
                         <select
                             id="digit-select"
                             value={selectedDigit}
                             onChange={(e) => setSelectedDigit(e.target.value)}
-                            className="block w-48 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            style={styles.select}
+                            onFocus={(e) => {
+                                e.target.style.borderColor = '#3b82f6';
+                                e.target.style.boxShadow = '0 0 0 2px rgba(59, 130, 246, 0.5)';
+                            }}
+                            onBlur={(e) => {
+                                e.target.style.borderColor = '#d1d5db';
+                                e.target.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+                            }}
                         >
                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(digit => (
                                 <option key={digit} value={digit}>{digit}</option>
@@ -99,11 +291,20 @@ const HandwrittenDigitGenerator = () => {
                     <button
                         onClick={handleGenerateImages}
                         disabled={loading}
-                        className={`px-6 py-2 rounded-md font-medium ${
-                            loading
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
-                        } text-white transition-colors`}
+                        style={{
+                            ...styles.button,
+                            ...(loading ? styles.buttonDisabled : styles.buttonActive)
+                        }}
+                        onMouseOver={(e) => {
+                            if (!loading) {
+                                e.target.style.backgroundColor = '#dc2626';
+                            }
+                        }}
+                        onMouseOut={(e) => {
+                            if (!loading) {
+                                e.target.style.backgroundColor = '#ef4444';
+                            }
+                        }}
                     >
                         {loading ? 'Generating...' : 'Generate Images'}
                     </button>
@@ -111,9 +312,9 @@ const HandwrittenDigitGenerator = () => {
 
                 {/* Error Message */}
                 {error && (
-                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
-                        <p className="text-red-700">{error}</p>
-                        <p className="text-sm text-red-600 mt-1">
+                    <div style={styles.errorContainer}>
+                        <p style={styles.errorText}>{error}</p>
+                        <p style={styles.errorSubtext}>
                             Showing placeholder images for demonstration.
                         </p>
                     </div>
@@ -122,17 +323,17 @@ const HandwrittenDigitGenerator = () => {
                 {/* Generated Images */}
                 {generatedImages.length > 0 && (
                     <div>
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                        <h2 style={styles.resultsTitle}>
                             Generated images of digit {selectedDigit}
                         </h2>
-                        <div className="grid grid-cols-5 gap-6">
+                        <div style={styles.imageGrid}>
                             {generatedImages.map((image, index) => (
-                                <div key={image.id || index} className="text-center">
-                                    <div className="w-24 h-24 mx-auto bg-black rounded-lg overflow-hidden shadow-md">
+                                <div key={image.id || index} style={styles.imageItem}>
+                                    <div style={styles.imageContainer}>
                                         <img
                                             src={image.url || image}
                                             alt={`Generated digit ${selectedDigit} sample ${index + 1}`}
-                                            className="w-full h-full object-cover"
+                                            style={styles.image}
                                             onError={(e) => {
                                                 // Fallback to SVG if image fails to load
                                                 e.target.src = `data:image/svg+xml;base64,${btoa(`
@@ -144,7 +345,7 @@ const HandwrittenDigitGenerator = () => {
                                             }}
                                         />
                                     </div>
-                                    <p className="text-sm text-gray-500 mt-2">Sample {index + 1}</p>
+                                    <p style={styles.imageLabel}>Sample {index + 1}</p>
                                 </div>
                             ))}
                         </div>
@@ -153,10 +354,10 @@ const HandwrittenDigitGenerator = () => {
 
                 {/* Loading State */}
                 {loading && generatedImages.length === 0 && (
-                    <div className="text-center py-8">
-                        <div className="inline-flex items-center">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-red-500 mr-3"></div>
-                            <span className="text-gray-600">Generating images...</span>
+                    <div style={styles.loadingContainer}>
+                        <div style={styles.loadingContent}>
+                            <div style={styles.spinner}></div>
+                            <span style={styles.loadingText}>Generating images...</span>
                         </div>
                     </div>
                 )}
